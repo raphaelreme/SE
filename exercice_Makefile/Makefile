@@ -25,3 +25,5 @@ $(EXE): $(OBJS)
 
 clean :
 	rm -f *.o *.d $(EXE)
+
+.PHONY: clean
