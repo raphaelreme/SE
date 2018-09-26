@@ -14,3 +14,6 @@ f:
     bl g
     add r0,r0,#0x01
     b loop
+
+g:
+  bx lr
