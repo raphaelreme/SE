@@ -5,7 +5,7 @@
 	.eabi_attribute 24, 1
 	.eabi_attribute 25, 1
 	.eabi_attribute 26, 1
-	.eabi_attribute 30, 2
+	.eabi_attribute 30, 1
 	.eabi_attribute 34, 0
 	.eabi_attribute 18, 4
 	.file	"test.c"
@@ -22,17 +22,19 @@ f:
 	@ args = 0, pretend = 0, frame = 0
 	@ frame_needed = 0, uses_anonymous_args = 0
 	mov	r4, #0
-	ldr	r5, .L5
-.L2:
+	b	.L2
+.L3:
 	bl	g
 	add	r4, r4, #1
-	ldr	r3, [r5]
 	and	r4, r4, #255
+.L2:
+	ldr	r3, .L4
+	ldr	r3, [r3]
 	cmp	r4, r3
-	bls	.L2
-.L6:
-	.align	2
+	bls	.L3
 .L5:
+	.align	2
+.L4:
 	.word	a
 	.size	f, .-f
 	.comm	a,4,4

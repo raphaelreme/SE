@@ -5,7 +5,7 @@
 	.eabi_attribute 24, 1
 	.eabi_attribute 25, 1
 	.eabi_attribute 26, 1
-	.eabi_attribute 30, 2
+	.eabi_attribute 30, 1
 	.eabi_attribute 34, 0
 	.eabi_attribute 18, 4
 	.file	"test2.c"
@@ -21,25 +21,26 @@ f:
 	@ Naked Function: prologue and epilogue provided by programmer.
 	@ args = 0, pretend = 0, frame = 0
 	@ frame_needed = 0, uses_anonymous_args = 0
-	ldr	r3, .L3
-	ldr	r2, .L3+4
-	ldr	r1, [r3]
-	ldr	r2, [r2]
-	ldr	ip, [r1]
+	ldr	r3, .L2
+	ldr	r2, [r3]
+	ldr	r1, .L2+4
+	ldr	r3, [r1]
+	ldr	r0, [r3]
 	ldr	r3, [r2]
-	ldr	r0, .L3+8
-	add	r3, r3, ip
+	add	r3, r3, r0
 	str	r3, [r2]
-	ldr	r2, [r0]
-	ldr	r1, [r1]
+	ldr	r3, .L2+8
+	ldr	r2, [r3]
+	ldr	r3, [r1]
+	ldr	r1, [r3]
 	ldr	r3, [r2]
 	add	r3, r3, r1
 	str	r3, [r2]
-.L4:
-	.align	2
 .L3:
-	.word	c
+	.align	2
+.L2:
 	.word	a
+	.word	c
 	.word	b
 	.size	f, .-f
 	.comm	c,4,4
