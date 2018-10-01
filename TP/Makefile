@@ -4,6 +4,8 @@ EXE = test
 OBJS = t.o
 TARGET_ARCH = -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16
 CFLAGS = -Wall -Wextra -Werror -g -O1
+# Pour que LD soit verbeux
+# LDFLAGS = -T ld_ram.lds -nostdlib -Wl,--print-map
 LDFLAGS = -T ld_ram.lds -nostdlib
 
 

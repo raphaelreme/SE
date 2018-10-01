@@ -5,10 +5,11 @@ MEMORY
   ram2 (wx): ORIGIN = 0x10000000, LENGTH = 32K
 }
 
+ENTRY(main)
+
 SECTIONS
 {
   .text : {
-	_start = . ;
 	*(.text)
   } > ram1
 
@@ -25,4 +26,3 @@ SECTIONS
   } > ram1
 }
 
-ENTRY(_start)
