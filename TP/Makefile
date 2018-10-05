@@ -6,7 +6,7 @@ AS = $(PREFIX)as
 TARGET_ARCH = -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16
 TARGET_MACH = $(TARGET_ARCH)
 
-CFLAGS = -Wall -Wextra -Werror -g -O1
+CFLAGS = -Wall -Wextra -Werror -g -O0
 ASFLAGS = -g
 
 # Pour que LD soit verbeux
@@ -14,7 +14,7 @@ ASFLAGS = -g
 LDFLAGS = -T ld_ram.lds -nostdlib
 
 EXE = test
-OBJS = t.o crt0.o
+OBJS = t.o crt0.o init.o
 
 
 all: $(EXE)

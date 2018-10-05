@@ -1,8 +1,12 @@
 int fibo(int);
 
+int x = 0;
+int y = 0;
 
 int main(){
- fibo(8);
+  int z = x+y;
+  z++;
+  fibo(8);
 }
 
 int fibo(int n){

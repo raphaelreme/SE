@@ -3,7 +3,8 @@
 
 _start:
   ldr sp, =_stack
+  bl init
   bl main
 
-_end :
-  b _end
+_exit :
+  b _exit
