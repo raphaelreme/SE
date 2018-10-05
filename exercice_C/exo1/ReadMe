@@ -19,6 +19,13 @@ correspond à l'alignement ! L'information n'est pas dupliquée comme on pourrai
 est juste égal à la taille pour des symboles représentant des types simples. Il suffit de prendre une
 variable représentant un tableau pour faire apparaître la différence entre les deux !
 
-Pour se rendre compte de tout ça il suffit de compiler le fichier source avec 'make compilation' et 
+Pour se rendre compte de tout ça il suffit de compiler le fichier source avec 'make compilation' et
 d'utiliser la commande arm-none-eabi-objdump -t t.o et de comparer les colonnes SYMBOL et SIZE.
 (Le fichier resultat_objdump contient déjà le résulat de ces opérations)
+
+
+---------------------------------------------------------------------------------------------------
+En conclusion, après tous mes essais, dans le cas d'un symbole qui n'est pas dans la section common,
+le slide est valide. Mais pour les symboles de la section common la première colonne est la taille
+en octet du symbole (Attention c'est en hexadécimal !). Et la colonne de taille devient la colonne
+des alignements !
