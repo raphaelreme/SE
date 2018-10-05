@@ -5,7 +5,9 @@ MEMORY
   ram2 (wx): ORIGIN = 0x10000000, LENGTH = 32K
 }
 
-ENTRY(main)
+ENTRY(_start)
+
+_stack =  ORIGIN(ram2) + LENGTH(ram2) ;
 
 SECTIONS
 {
@@ -25,4 +27,3 @@ SECTIONS
 	*(.bss) *(.COMMON)
   } > ram1
 }
-

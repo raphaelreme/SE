@@ -11,7 +11,7 @@ make: rien à faire pour « all ».
 # Variables
 
 # directive « override »
-GNUMAKEFLAGS := 
+GNUMAKEFLAGS :=
 # automatique
 <D = $(patsubst %/,%,$(dir $<))
 # automatique
@@ -135,7 +135,7 @@ TANGLE = tangle
 # environnement
 GLADE_MODULE_PATH = :
 # environnement
-LS_COLORS = 
+LS_COLORS =
 # environnement
 XDG_SESSION_DESKTOP = startxfce4
 # environnement
@@ -229,7 +229,7 @@ F77 = $(FC)
 # environnement
 OLDPWD = /cal/homes/rreme
 # défaut
-.VARIABLES := 
+.VARIABLES :=
 # défaut
 PC = pc
 # automatique
@@ -245,7 +245,7 @@ MFLAGS = -p
 # automatique
 *D = $(patsubst %/,%,$(dir $*))
 # environnement
-LOADEDMODULES = 
+LOADEDMODULES =
 # défaut
 LEX.l = $(LEX) $(LFLAGS) -t
 # défaut
@@ -261,7 +261,7 @@ M2C = m2c
 # environnement
 QT_ACCESSIBILITY = 1
 # défaut
-MAKEFILES := 
+MAKEFILES :=
 # défaut
 COMPILE.cc = $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(TARGET_ARCH) -c
 # automatique
@@ -271,7 +271,7 @@ CXX = g++
 # environnement
 MODULE_VERSION = 3.2.10
 # défaut
-COFLAGS = 
+COFLAGS =
 # défaut
 COMPILE.C = $(COMPILE.cc)
 # automatique
@@ -293,7 +293,7 @@ COMPILE.s = $(AS) $(ASFLAGS) $(TARGET_MACH)
 # défaut
 .INCLUDE_DIRS = /usr/include /usr/local/include /usr/include
 # défaut
-.RECIPEPREFIX := 
+.RECIPEPREFIX :=
 # défaut
 MAKEINFO = makeinfo
 # défaut
@@ -450,13 +450,13 @@ LINK.o = $(CC) $(LDFLAGS) $(TARGET_ARCH)
 
 %.ln: %.y
 #  recette à exécuter (commande interne) :
-	$(YACC.y) $< 
-	 $(LINT.c) -C$* y.tab.c 
+	$(YACC.y) $<
+	 $(LINT.c) -C$* y.tab.c
 	 $(RM) y.tab.c
 
 %.c: %.y
 #  recette à exécuter (commande interne) :
-	$(YACC.y) $< 
+	$(YACC.y) $<
 	 mv -f y.tab.c $@
 
 %.l:
@@ -470,19 +470,19 @@ LINK.o = $(CC) $(LDFLAGS) $(TARGET_ARCH)
 
 %.c: %.l
 #  recette à exécuter (commande interne) :
-	@$(RM) $@ 
+	@$(RM) $@
 	 $(LEX.l) $< > $@
 
 %.r: %.l
 #  recette à exécuter (commande interne) :
-	$(LEX.l) $< > $@ 
+	$(LEX.l) $< > $@
 	 mv -f lex.yy.r $@
 
 %.ym:
 
 %.m: %.ym
 #  recette à exécuter (commande interne) :
-	$(YACC.m) $< 
+	$(YACC.m) $<
 	 mv -f y.tab.c $@
 
 %.yl:
@@ -597,7 +597,7 @@ LINK.o = $(CC) $(LDFLAGS) $(TARGET_ARCH)
 
 %: %.sh
 #  recette à exécuter (commande interne) :
-	cat $< >$@ 
+	cat $< >$@
 	 chmod a+x $@
 
 %.elc:
@@ -610,7 +610,7 @@ LINK.o = $(CC) $(LDFLAGS) $(TARGET_ARCH)
 
 %.out: %
 #  recette à exécuter (commande interne) :
-	@rm -f $@ 
+	@rm -f $@
 	 cp $< $@
 
 %.c: %.w %.ch
@@ -661,7 +661,7 @@ LINK.o = $(CC) $(LDFLAGS) $(TARGET_ARCH)
 #  Heure de modification jamais vérifiée.
 #  Le fichier n'a pas été mis à jour.
 #  recette à exécuter (commande interne) :
-	$(LEX.l) $< > $@ 
+	$(LEX.l) $< > $@
 	 mv -f lex.yy.r $@
 
 # Pas une cible :
@@ -920,7 +920,7 @@ Makefile:
 #  Heure de modification jamais vérifiée.
 #  Le fichier n'a pas été mis à jour.
 #  recette à exécuter (commande interne) :
-	$(YACC.m) $< 
+	$(YACC.m) $<
 	 mv -f y.tab.c $@
 
 t1.o: t1.c
@@ -939,8 +939,8 @@ t1.o: t1.c
 #  Heure de modification jamais vérifiée.
 #  Le fichier n'a pas été mis à jour.
 #  recette à exécuter (commande interne) :
-	$(YACC.y) $< 
-	 $(LINT.c) -C$* y.tab.c 
+	$(YACC.y) $<
+	 $(LINT.c) -C$* y.tab.c
 	 $(RM) y.tab.c
 
 hello: main.o t1.o stubs.o t2.o
@@ -963,7 +963,7 @@ hello: main.o t1.o stubs.o t2.o
 #  Heure de modification jamais vérifiée.
 #  Le fichier n'a pas été mis à jour.
 #  recette à exécuter (commande interne) :
-	@$(RM) $@ 
+	@$(RM) $@
 	 $(LEX.l) $< > $@
 
 # Pas une cible :
@@ -1083,7 +1083,7 @@ all: hello
 #  Heure de modification jamais vérifiée.
 #  Le fichier n'a pas été mis à jour.
 #  recette à exécuter (commande interne) :
-	@$(RM) $@ 
+	@$(RM) $@
 	 $(LEX.m) $< > $@
 
 t2.o: t2.c
@@ -1102,7 +1102,7 @@ t2.o: t2.c
 #  Heure de modification jamais vérifiée.
 #  Le fichier n'a pas été mis à jour.
 #  recette à exécuter (commande interne) :
-	$(YACC.y) $< 
+	$(YACC.y) $<
 	 mv -f y.tab.c $@
 
 # Pas une cible :
@@ -1172,7 +1172,7 @@ clean:
 #  La recherche de règle implicite n'a pas été effectuée.
 #  Heure de modification jamais vérifiée.
 #  Le fichier n'a pas été mis à jour.
-#  recette à exécuter (de « Makefile », ligne 16) : 
+#  recette à exécuter (de « Makefile », ligne 16) :
 	rm -f *.o
 
 # Pas une cible :
@@ -1241,7 +1241,7 @@ stubs.o: ./libs/stubs.c
 #  Heure de modification jamais vérifiée.
 #  Le fichier n'a pas été mis à jour.
 #  recette à exécuter (commande interne) :
-	cat $< >$@ 
+	cat $< >$@
 	 chmod a+x $@
 
 main.o: main.c
@@ -1368,4 +1368,3 @@ vpath stubs.c ./libs
 # stats des tables de hachage :
 # Charge=590/8192=7%, Rehash=0, Collisions=242/976=25%
 # Base de données de Make terminée le Wed Sep 19 13:48:56 2018
-
