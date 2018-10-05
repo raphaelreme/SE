@@ -1,27 +1,51 @@
 
-t.o:     file format elf32-littlearm
+t.o:     format de fichier elf32-little
 
 SYMBOL TABLE:
 00000000 l    df *ABS*	00000000 t.c
 00000000 l    d  .text	00000000 .text
 00000000 l    d  .data	00000000 .data
 00000000 l    d  .bss	00000000 .bss
+00000000 l       .data	00000000 $d
 00000000 l    d  .rodata	00000000 .rodata
-00000000 l       .bss	00000001 z.5180
+00000001 l       .rodata	00000000 $d
+00000000 l       .text	00000000 $a
+0000009c l       .text	00000000 $d
+00000000 l       .bss	00000001 z.5199
+00000000 l       .bss	00000000 $d
 00000000 l    d  .comment	00000000 .comment
 00000000 l    d  .ARM.attributes	00000000 .ARM.attributes
 00000000 g     O .data	00000004 x
+00000004 g     O .data	00000003 x8_tab
+00000008 g     O .data	00000006 x16_tab
+00000010 g     O .data	0000000c x32_tab
+00000020 g     O .data	00000018 x64_tab
+00000008       O *COM*	00000008 y64
 00000004       O *COM*	00000004 y32
 00000002       O *COM*	00000002 y16
 00000001       O *COM*	00000001 y8
-00000008       O *COM*	00000008 y64
-00000004       O *COM*	00000004 y_int
-00000002       O *COM*	00000002 y_short
 00000001       O *COM*	00000001 y_char
+00000002       O *COM*	00000002 y_short
+00000004       O *COM*	00000004 y_int
 00000004       O *COM*	00000004 y_long
 00000008       O *COM*	00000008 y_double
-00000000 g     O .rodata	0000000d mesg
-00000000 g     F .text	000000b8 main
+00000014       O *COM*	00000004 y8_tab_taille20
+00000028       O *COM*	00000004 y16_tab_taille20
+00000050       O *COM*	00000004 y32_tab_taille20
+000000a0       O *COM*	00000008 y64_tab_taille20
+0000000a       O *COM*	00000004 y8_tab_taille10
+00000014       O *COM*	00000004 y16_tab_taille10
+00000028       O *COM*	00000004 y32_tab_taille10
+00000050       O *COM*	00000008 y64_tab_taille10
+00000004       O *COM*	00000004 y8_pointeur
+00000004       O *COM*	00000004 y16_pointeur
+00000004       O *COM*	00000004 y32_pointeur
+00000004       O *COM*	00000004 y64_pointeur
+00000000 g     O .rodata	00000001 z8
+00000002 g     O .rodata	00000002 z16
+00000004 g     O .rodata	00000004 z32
+00000008 g     O .rodata	00000008 z64
+00000000 g     F .text	000000ac main
 00000000         *UND*	00000000 printf
 
 

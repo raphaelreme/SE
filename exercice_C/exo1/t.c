@@ -1,8 +1,14 @@
 #include <stdint.h>
 #include <stdio.h>
 
+/*DATA*/
 int32_t x = 34;
+int8_t x8_tab[3] = {0,1,2};
+int16_t x16_tab[3] = {0,1,2};
+int32_t x32_tab[3] = {0,1,2};
+int64_t x64_tab[3] = {0,1,2};
 
+/*COM*/
 int64_t y64;
 int32_t y32;
 int16_t y16;
@@ -30,7 +36,11 @@ int32_t* y32_pointeur;
 int64_t* y64_pointeur;
 
 
-const char mesg[] = "Hello World!";
+/*RODATA*/
+const int8_t z8 = 2;
+const int16_t z16 = 2;
+const int32_t z32 = 2;
+const int64_t z64 = 2;
 
 int main() {
   static uint8_t z;
@@ -38,7 +48,6 @@ int main() {
   y32 = 12;
   z = z + 1;
   t = y32+z;
-  printf(mesg);
   printf("x = %ld, y = %ld, z = %d, t = %d\n",x, y32, z, t);
   return 0;
 }
