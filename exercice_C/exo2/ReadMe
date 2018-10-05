@@ -1,0 +1,14 @@
+Utilisez la regle results de make pour faire afficher les adresses de symboles
+dans différentes sections.
+
+On peut voir que les sections sont triées dans l'ordre suivant :
+.text
+.rodata
+.data
+.bss
+heap
+stack
+
+
+De plus le tas l'allocation se fait par adresse croissante, tandis que les adresses sur
+la pile decroissent (full descending) !
