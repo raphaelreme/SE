@@ -1,22 +1,24 @@
 Pour cet exo, on peut déjà commencer par regarder la documentation de objdump sur l'option -t :
 
-Il est écrit que dans la colonne SYMBOL il est mis la valeur du symbole et non l'adresse du symbole. 
+Il est écrit que dans la colonne SYMBOL il est mis la valeur du symbole et non l'adresse du symbole.
 (Et la documentation nous dit seulement que l'un est généralement égal à l'autre, mais pas nécessairement.)
 
-Ainsi pour corriger le slide 96, on peut tout simplement remplacer la fleche rouge 'adresse' 
+Ainsi pour corriger le slide 96, on peut tout simplement remplacer la fleche rouge 'adresse'
 par une fleche rouge 'Valeur du symbole' !
 
 Mais essayons maintenant de comprendre ce que vaut la valeur du symbole y dans notre cas puisque que
 ce n'est pas son adresse (elle est nulle avant l'édition de lien).
 
 On peut déjà remarqué que y est un int32_t et fait donc 4 octets, comme la valeur du symbole associé !
-En fait en faisant un test sur différents types, on voit alors que si ils sont dans la section COM, la 
+En fait en faisant un test sur différents types, on voit alors que si ils sont dans la section COM, la
 valeur du symbole est son nombre d'octet (= sa taille).
 
-Pour s'en rendre compte il suffit de compiler le fichier source avec 'make compilation' et d'utiliser la commande
-arm-none-eabi-objdump -t t.o et de comparer les colonnes SYMBOL et SIZE. (Le fichier resultat_objdump contient 
-le résulat de ces opérations)
+Toutefois cela ferait doublons avec la colonne de taille des symboles. En fait, si on lit la documentation,
+le champ après le nom de section correspond à la taille excepté dans le cas de la section common, où il
+correspond à l'alignement ! L'information n'est pas dupliquée comme on pourrait le croire, l'alignement
+est juste égal à la taille pour des symboles représentant des types simples. Il suffit de prendre une
+variable représentant un tableau pour faire apparaître la différence entre les deux !
 
-
-
-Mais quel est le but de  dupliquer la valeur de size ? Je n'ai pas encore trouvé de pistes là-dessus...
+Pour se rendre compte de tout ça il suffit de compiler le fichier source avec 'make compilation' et 
+d'utiliser la commande arm-none-eabi-objdump -t t.o et de comparer les colonnes SYMBOL et SIZE.
+(Le fichier resultat_objdump contient déjà le résulat de ces opérations)
