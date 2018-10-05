@@ -14,7 +14,7 @@ int main() {
     t = y+z;
 
     printf(mesg);
-    printf("x = %d, y = %d, z = %d, t = %d\n",
+    printf("x = %ld, y = %ld, z = %d, t = %d\n",
            x, y, z, t);
     return 0;
 }

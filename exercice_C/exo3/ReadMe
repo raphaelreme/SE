@@ -1,0 +1,30 @@
+make all permet de generer les différents fichier objet avec les différents niveaux d'optimisation.
+
+On observe sans optimisation (-O0) :
+.text fait 176 octets
+.data fait 4 octets (il n'y a que x, qui fait 32 bits)
+.bss fait 1 octets (Il n'y a que la taille de la vrai section bss
+      qui sera générée au lancement du programme.)
+.rodata fait 66 octets
+
+Pour -O1 :
+.text ne fait plus que 116 octets ! le code est optimisé, le programme fait un minimum
+      d'actions inutiles, et utilise les instructions les plus poussées du processeur
+      pour condenser et optimiser le code.
+.data fait toujours 4 octets et ne changera pas, il n'est pas possible d'optimiser la
+      place nécessaire à une variable de 32bits
+.bss fait aussi 1 octets, c'est déjà la taille non nulle minimum !
+.rodata est découpé en deux sections : .rodata et .rodata.str1.4. Leur taille est de
+      14 octets et 50 octets soit un total de 64 octets.
+
+Pour -O2 :
+.text est remplacé par .text.startup mais qui fait la même taille que pour O1 : 116 octets
+.data et .bss n'ont pas changé pour les mêmes raisons que précédemment
+.rodata n'a pas non plus été changé et fait toujours 14+50 octets
+
+Pour -Os :
+.text fait 112 octets ! Ici la compilateur a choisi d'optimiser la taille du texte
+      au détriment de sa vitesse d'execution. Il n'utilise pas toutes optimisations
+      pour la vitesse d'execution.
+.data et .bss sont inchangés
+.rodata fait ce coup ci 14 + 39 = 47 octets.
