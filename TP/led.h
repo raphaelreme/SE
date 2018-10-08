@@ -3,9 +3,13 @@
 
 #include <stdint.h>
 
-#define REG_clock_port (*(volatile uint32_t *)0x4002104c)
+#define CLOCK_ENA (*(volatile uint32_t *)0x4002104c)
+
 #define GPIOB_MODER (*(volatile uint32_t *)0x48000400)
 #define GPIOB_BSRR (*(volatile uint32_t *)0x48000418)
+
+#define GPIOC_MODER (*(volatile uint32_t *)0x48000800)
+#define GPIOC_BSRR (*(volatile uint32_t *)0x48000818)
 
 
 void led_init(void);
