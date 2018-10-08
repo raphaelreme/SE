@@ -12,20 +12,20 @@ _stack =  ORIGIN(ram2) + LENGTH(ram2) ;
 SECTIONS
 {
   .text : {
-      *(.text)
+      *(.text*)
   } > ram1
 
   .rodata : {
-      *(.rodata)
+      *(.rodata*)
   } > ram1
 
   .data : {
-      *(.data)
+      *(.data*)
   } > ram1
 
   .bss : {
       _bss = . ;
-	    *(.bss) *(.COMMON)
+	    *(*bss*) *(*COM*)
       _ebss = . ;
   } > ram1
 }

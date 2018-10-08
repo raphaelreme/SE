@@ -1,3 +1,4 @@
+.cpu cortex-m4
 .syntax unified
 .global _start
 

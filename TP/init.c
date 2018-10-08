@@ -1,11 +1,10 @@
 #include<stdint.h>
 
-
-extern uint32_t _bss, _ebss;
+extern uint8_t _bss, _ebss;
 
 void init(){
-  uint32_t* begin = &_bss;
-  uint32_t* end = &_ebss;
+  uint8_t* begin = &_bss;
+  uint8_t* end = &_ebss;
 
   while (begin<end){
     *begin = 0;
