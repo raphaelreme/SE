@@ -1,4 +1,3 @@
-
 PREFIX = arm-none-eabi-
 CC = $(PREFIX)gcc
 AS = $(PREFIX)as
@@ -14,7 +13,7 @@ ASFLAGS = -g
 LDFLAGS = -T ld_ram.lds -nostdlib
 
 EXE = test
-OBJS = t.o crt0.o init.o
+OBJS = t.o crt0.o init.o led.o
 
 
 all: $(EXE)
@@ -27,7 +26,7 @@ JLinkGDBServer:
 	JLinkGDBServer -device STM32L475VG -endian little -if SWD -speed auto -ir -LocalhostOnly
 
 clean:
-	rm -f *.o *.out *.h $(EXE)
+	rm -f *.o *.out $(EXE)
 
 
 .PHONY: JLinkGDBServer clean
