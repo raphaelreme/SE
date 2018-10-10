@@ -3,7 +3,7 @@
 void led_init(){
   CLOCK_ENA = CLOCK_ENA | (3<<1); //enable port B and C
   GPIOB_MODER = (GPIOB_MODER & ~(0x3<<28)) | (1<<28);
-  GPIOC_MODER = (GPIOC_MODER & ~(0x3<<28));
+  GPIOC_MODER = (GPIOC_MODER & ~(0x3<<18));
 }
 
 void led_g_on(){
@@ -16,13 +16,13 @@ void led_g_off(){
 
 void led(enum state s){
   if (s==LED_OFF){
-    GPIOC_MODER = GPIOC_MODER & ~(0x3<<28);
+    GPIOC_MODER = GPIOC_MODER & ~(0x3<<18);
     return;
   }
-  GPIOC_MODER = (GPIOC_MODER & ~(0x3<<28)) | (1<<28);
+  GPIOC_MODER = (GPIOC_MODER & ~(0x3<<18)) | (1<<18);
   if (s==LED_YELLOW){
-    GPIOB_BSRR = 1<<14;
+    GPIOC_BSRR = 1<<9;
     return;
   }
-  GPIOB_BSRR = 1<<30;
+  GPIOC_BSRR = 1<<25;
 }
