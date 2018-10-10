@@ -4,17 +4,25 @@ int fibo(int);
 
 int main(){
   //return fibo(8);
+
   led_init();
   for (int i=0; i<15;i++){
     for (int j=0; j<100000; j++){
       asm volatile("nop");
     }
+    led(LED_OFF);
     led_g_on();
     for (int j=0; j<100000; j++){
       asm volatile("nop");
     }
     led_g_off();
+    led(LED_YELLOW);
+    for (int j=0; j<100000; j++){
+      asm volatile("nop");
+    }
+    led(LED_BLUE);
   }
+  led(LED_OFF);
 }
 
 
