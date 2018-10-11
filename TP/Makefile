@@ -13,7 +13,7 @@ ASFLAGS = -g
 LDFLAGS = -T ld_ram.lds -nostdlib
 
 EXE = test
-OBJS = t.o crt0.o init.o led.o
+OBJS = t.o crt0.o init.o led.o clocks
 
 
 all: $(EXE)
