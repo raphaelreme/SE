@@ -5,10 +5,8 @@ AS = $(PREFIX)as
 TARGET_ARCH = -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16
 TARGET_MACH = $(TARGET_ARCH)
 
-REP = -I CMSIS/Device/ST/STM32L4xx/Include
-REP += -I CMSIS/Include
+CPPFLAGS = -I CMSIS/Device/ST/STM32L4xx/Include -I CMSIS/Include -DSTM32L475xx
 CFLAGS = -Wall -Wextra -Werror -g -O0
-CFLAGS += $(REP)
 ASFLAGS = -g
 
 # Pour que LD soit verbeux
