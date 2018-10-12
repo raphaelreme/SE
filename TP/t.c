@@ -7,18 +7,18 @@ int main(){
   clocks_init();
   led_init();
 
-  for (int i=0; i<15;i++){
-    for (int j=0; j<1000000; j++){
+  for (int i=0; i<10;i++){
+    for (int j=0; j<3000000; j++){
       asm volatile("nop");
     }
     led(LED_OFF);
     led_g_on();
-    for (int j=0; j<1000000; j++){
+    for (int j=0; j<3000000; j++){
       asm volatile("nop");
     }
     led_g_off();
     led(LED_YELLOW);
-    for (int j=0; j<1000000; j++){
+    for (int j=0; j<3000000; j++){
       asm volatile("nop");
     }
     led(LED_BLUE);

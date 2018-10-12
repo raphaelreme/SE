@@ -1,28 +1,39 @@
 #include "led.h"
+#include "stm32l475xx.h"
+#include "stm32l4xx.h"
+
 
 void led_init(){
-  CLOCK_ENA = CLOCK_ENA | (3<<1); //enable port B and C
-  GPIOB_MODER = (GPIOB_MODER & ~(0x3<<28)) | (1<<28);
-  GPIOC_MODER = (GPIOC_MODER & ~(0x3<<18));
+  //Ena port B and C
+  SET_BIT(RCC->AHB2ENR,RCC_AHB2ENR_GPIOBEN | RCC_AHB2ENR_GPIOCEN);
+  //Set output mode for B
+  MODIFY_REG(GPIOB->MODER, GPIO_MODER_MODE14_Msk, GPIO_MODER_MODE14_0);
+  //Set input mode for C (-> the two leds are off)
+  CLEAR_BIT(GPIOC->MODER,GPIO_MODER_MODE9_Msk);
 }
+
 
 void led_g_on(){
-  GPIOB_BSRR = 1<<14;
+  WRITE_REG(GPIOB->BSRR, GPIO_BSRR_BS14);
 }
 
+
 void led_g_off(){
-  GPIOB_BSRR = 1<<30;
+  WRITE_REG(GPIOB->BSRR, GPIO_BSRR_BR14);
 }
+
 
 void led(enum state s){
   if (s==LED_OFF){
-    GPIOC_MODER = GPIOC_MODER & ~(0x3<<18);
+    CLEAR_BIT(GPIOC->MODER,GPIO_MODER_MODE9_Msk);
     return;
   }
-  GPIOC_MODER = (GPIOC_MODER & ~(0x3<<18)) | (1<<18);
+  //output mode -> one of the led will turn on !
+  MODIFY_REG(GPIOC->MODER, GPIO_MODER_MODE9_Msk, GPIO_MODER_MODE9_0);
   if (s==LED_YELLOW){
-    GPIOC_BSRR = 1<<9;
+    WRITE_REG(GPIOC->BSRR, GPIO_BSRR_BS9);
     return;
   }
-  GPIOC_BSRR = 1<<25;
+  //state == LED_BLUE
+  WRITE_REG(GPIOC->BSRR, GPIO_BSRR_BR9);
 }

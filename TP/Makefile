@@ -5,7 +5,10 @@ AS = $(PREFIX)as
 TARGET_ARCH = -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16
 TARGET_MACH = $(TARGET_ARCH)
 
+REP = -I CMSIS/Device/ST/STM32L4xx/Include
+REP += -I CMSIS/Include
 CFLAGS = -Wall -Wextra -Werror -g -O0
+CFLAGS += $(REP)
 ASFLAGS = -g
 
 # Pour que LD soit verbeux
@@ -23,14 +26,18 @@ $(EXE): $(OBJS)
 	$(LINK.o) $^ $(LOADLIBES) $(LDLIBS) $(OUTPUT_OPTION)
 
 
+led.i: led.c
+	$(CC) $(CFLAGS) $(CPPFLAGS) $(TARGET_ARCH) -E $^ -o $@
+
+
 ####################################################################
 ####################################################################
 ##################  Generate prerequisites  ########################
 
--include $(subst .c,.d,$(SOURCE_C))
+#-include $(subst .c,.d,$(SOURCE_C))
 
-%.d : %.c
-	$(CC) $(CFLAGS) $(CPPFLAGS) $(TARGET_ARCH) -M -MF $@ -MP $<
+#%.d : %.c
+#	$(CC) $(CFLAGS) $(CPPFLAGS) $(TARGET_ARCH) -M -MF $@ -MP $<
 
 
 ####################################################################
