@@ -37,10 +37,24 @@ void uart_init(){
   SET_BIT(USART1->CR1, USART_CR1_TE | USART_CR1_RE | USART_CR1_UE);
 }
 
+
+
+
 void uart_putchar(uint8_t c){
   while (READ_BIT(USART1->ISR, USART_ISR_TXE) == 0){}
   USART1->TDR = c;
 }
+
+void uart_puts(const uint8_t *s){
+    while(*s != 0){
+        uart_putchar(*s);
+        s++;
+    }
+
+    uart_putchar('\n');
+    uart_putchar('\r');
+}
+
 
 uint8_t uart_getchar(){
   while (READ_BIT(USART1->ISR, USART_ISR_RXNE) == 0){}

@@ -13,15 +13,11 @@ int main(){
   }
 
   char c = 'A';
-  char chaine[] = "Hello world";
+  const uint8_t * chaine = (const uint8_t *)"Hello world";
   for (int i=0; i<10; i++){
     uart_putchar((uint8_t)(c+i));
   }
-  for (int i=0; i<11;i++){
-    uart_putchar((uint8_t)chaine[i]);
-  }
-  uart_putchar('\n');
-
+  uart_puts(chaine);
 }
 
 
