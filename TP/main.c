@@ -7,8 +7,12 @@ void led_trial(void);
 
 int main(){
   clocks_init();
-
-  led_trial();
+  uart_init();
+  char c = 'A';
+  for (int i=0; i<10; i++){
+    uart_putchar((uint8_t)(c+i));
+  }
+  //led_trial();
 }
 
 
