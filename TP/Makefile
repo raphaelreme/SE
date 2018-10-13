@@ -14,8 +14,9 @@ ASFLAGS = -g
 LDFLAGS = -T ld_ram.lds -nostdlib
 
 EXE = main
-OBJS = main.o crt0.o init.o led.o clocks
-SOURCE_C = main.c init.c led.c
+SOURCE_C = main.c init.c led.c uart.c
+OBJS = $(subst .c,.o,$(SOURCE_C)) crt0.o clocks
+
 
 
 all: $(EXE)
