@@ -13,9 +13,9 @@ ASFLAGS = -g
 # LDFLAGS = -T ld_ram.lds -nostdlib -Wl,--print-map
 LDFLAGS = -T ld_ram.lds -nostdlib
 
-EXE = test
-OBJS = t.o crt0.o init.o led.o clocks
-SOURCE_C = t.c init.c led.c
+EXE = main
+OBJS = main.o crt0.o init.o led.o clocks
+SOURCE_C = main.c init.c led.c
 
 
 all: $(EXE)
@@ -24,18 +24,14 @@ $(EXE): $(OBJS)
 	$(LINK.o) $^ $(LOADLIBES) $(LDLIBS) $(OUTPUT_OPTION)
 
 
-led.i: led.c
-	$(CC) $(CFLAGS) $(CPPFLAGS) $(TARGET_ARCH) -E $^ -o $@
-
-
 ####################################################################
 ####################################################################
 ##################  Generate prerequisites  ########################
 
-#-include $(subst .c,.d,$(SOURCE_C))
+-include $(subst .c,.d,$(SOURCE_C))
 
-#%.d : %.c
-#	$(CC) $(CFLAGS) $(CPPFLAGS) $(TARGET_ARCH) -M -MF $@ -MP $<
+%.d : %.c
+	$(CC) $(CFLAGS) $(CPPFLAGS) $(TARGET_ARCH) -M -MF $@ -MP $<
 
 
 ####################################################################
