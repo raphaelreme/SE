@@ -3,16 +3,25 @@
 #include "uart.h"
 
 int fibo(int);
-void led_trial(void);
+void leds(void);
 
 int main(){
   clocks_init();
   uart_init();
+  for (int j=0; j<10000; j++){
+    asm volatile("nop");
+  }
+
   char c = 'A';
+  char chaine[] = "Hello world";
   for (int i=0; i<10; i++){
     uart_putchar((uint8_t)(c+i));
   }
-  //led_trial();
+  for (int i=0; i<11;i++){
+    uart_putchar((uint8_t)chaine[i]);
+  }
+  uart_putchar('\n');
+
 }
 
 
@@ -26,7 +35,7 @@ int fibo(int n){
   return fibo(n-1)+fibo(n-2);
 }
 
-void led_trial(){
+void leds(){
   led_init();
 
   for (int i=0; i<10;i++){
