@@ -60,3 +60,8 @@ uint8_t uart_getchar(){
   while (READ_BIT(USART1->ISR, USART_ISR_RXNE) == 0){}
   return (uint8_t)READ_BIT(USART1->RDR, 0xff);
 }
+
+void uart_gets(uint8_t *s, size_t size){
+  
+  while ()
+}
