@@ -43,7 +43,8 @@ def main():
         sys.exit(-1)
 
     # Generate random bytes
-    array = np.random.randint(0, 256, args.num)
+    #array = np.random.randint(0, 256, args.num)
+    array = np.arange(args.num)
 
     # Calculate sum of bytes
     sum = np.sum(array)%(2**32)
