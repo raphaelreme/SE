@@ -1,6 +1,12 @@
 #ifndef UART_H
 #define UART_H
+
 #include<stdint.h>
+
+//Rather than include stdlib.h.
+typedef unsigned int size_t;
+
+
 
 void uart_init(void);
 

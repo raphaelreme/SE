@@ -3,6 +3,19 @@
 #include "stm32l4xx.h"
 
 
+void active_wait(){
+  while(1){
+    asm volatile("nop");
+  }
+}
+
+/*
+ * Initializes the USART1 output.
+ * Resets USART1 registers and sets :
+ * MODE = 8N1
+ * Oversampling = 16
+ * Speed = 115200 bauds
+ */
 void uart_init(){
   //Ena clock of port B
   SET_BIT(RCC->AHB2ENR,RCC_AHB2ENR_GPIOBEN);
@@ -39,29 +52,68 @@ void uart_init(){
 
 
 
-
+/*
+ * Write a single character on the USART1 output.
+ */
 void uart_putchar(uint8_t c){
   while (READ_BIT(USART1->ISR, USART_ISR_TXE) == 0){}
   USART1->TDR = c;
 }
 
+/*
+ * Write the string s on the USART1 output.
+ * Add a final '\n\r' to the output.
+ */
 void uart_puts(const uint8_t *s){
     while(*s != 0){
         uart_putchar(*s);
         s++;
     }
-
     uart_putchar('\n');
     uart_putchar('\r');
 }
 
-
+/*
+ * Reads one character from USART1 and returns it.
+ * If an overrun or a framing error happens, it will
+ * go for an infite loop.
+ */
 uint8_t uart_getchar(){
-  while (READ_BIT(USART1->ISR, USART_ISR_RXNE) == 0){}
+  do {
+    if (READ_BIT(USART1->ISR, USART_ISR_ORE)){
+      uart_puts((uint8_t *)"OVERRUN\n");
+      active_wait();
+    }
+    if (READ_BIT(USART1->ISR, USART_ISR_FE)){
+      uart_puts((uint8_t *)"FRAMING ERROR\n");
+      active_wait();
+    }
+
+  } while (READ_BIT(USART1->ISR, USART_ISR_RXNE) == 0);
+
   return (uint8_t)READ_BIT(USART1->RDR, 0xff);
 }
 
+
+/*
+ * Reads at most size - 1 characters from USART1 and puts them
+ * in the buffer s. It ends if a \n or \r is read.
+ * A final nul ('\0') byte is put at the end of the line.
+ *
+ * If an overrun or a framing error happens, it will
+ * go for an infite loop.
+ */
 void uart_gets(uint8_t *s, size_t size){
-  
-  while ()
+  uint32_t i;
+
+  for (i=0; i<size-1; i++){
+    uint8_t c = uart_getchar();
+    s[i] = c;
+    if (c == '\n' || c == '\r'){
+      i++;
+      break;
+    }
+  }
+
+  s[i]=0;
 }
