@@ -7,6 +7,9 @@ void leds(void);
 void test_puts(void);
 void test_getchar(void);
 void test_gets(void);
+void check_sum(void);
+
+void hexa(uint8_t *, uint32_t);
 
 void wait(int n){
   for (int j=0; j<n; j++){
@@ -19,7 +22,7 @@ int main(){
   uart_init();
   wait(10000);
 
-  test_gets();
+  check_sum();
 
 
 
@@ -83,5 +86,46 @@ void test_gets(){
     uart_gets((uint8_t *)tab, size);
     uart_puts((uint8_t *)tab);
   }
+}
 
+void check_sum(){
+  const uint8_t * display = (const uint8_t *)"Sum :";
+
+  uint32_t sum = 0;
+  uint8_t s[11];
+
+  size_t size = 1001;
+  uint8_t tab[size];
+  uart_gets((uint8_t *)tab, size);
+  uart_puts(display);
+
+  for (uint32_t i=0; i<size-1; i++){
+    sum += tab[i];
+  }
+  hexa((uint8_t *)s, sum);
+  uart_puts((uint8_t *)s);
+
+  /*
+  while (1){
+    uint8_t c = uart_getchar();
+    sum += c;
+
+    uart_puts(display);
+    hexa((uint8_t *)s, sum);
+    uart_puts((uint8_t *)s);
+  }
+  */
+}
+
+void hexa(uint8_t * s, uint32_t value){
+  const uint8_t c[16] = "0123456789abcdef";
+
+  s[0] = '0';
+  s[1] = 'x';
+
+  for (int i=9; i>1;i--){
+    s[i] = c[value%16];
+    value /= 16;
+  }
+  s[10] = 0;
 }
