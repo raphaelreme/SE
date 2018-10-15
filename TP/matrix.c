@@ -1,5 +1,3 @@
-#include "stm32l4xx.h"
-#include "stm32l475xx.h"
 #include "matrix.h"
 #include "main.h"
 
@@ -7,8 +5,8 @@
 //Only used in initialisation.
 #define GPIOA_MODER_Msk GPIO_MODER_MODE2_Msk|GPIO_MODER_MODE3_Msk|GPIO_MODER_MODE4_Msk|GPIO_MODER_MODE5_Msk|GPIO_MODER_MODE6_Msk|GPIO_MODER_MODE7_Msk|GPIO_MODER_MODE15_Msk
 #define GPIOA_MODER_0   GPIO_MODER_MODE2_0|GPIO_MODER_MODE3_0|GPIO_MODER_MODE4_0|GPIO_MODER_MODE5_0|GPIO_MODER_MODE6_0|GPIO_MODER_MODE7_0|GPIO_MODER_MODE15_0
-#define GPIOB_MODER_Msk GPIO_MODER_MODE1_Msk|GPIO_MODER_MODE2_Msk|GPIO_MODER_MODE3_Msk
-#define GPIOB_MODER_0   GPIO_MODER_MODE1_0|GPIO_MODER_MODE2_0|GPIO_MODER_MODE3_0
+#define GPIOB_MODER_Msk GPIO_MODER_MODE0_Msk|GPIO_MODER_MODE1_Msk|GPIO_MODER_MODE2_Msk
+#define GPIOB_MODER_0   GPIO_MODER_MODE0_0|GPIO_MODER_MODE1_0|GPIO_MODER_MODE2_0
 #define GPIOC_MODER_Msk GPIO_MODER_MODE3_Msk|GPIO_MODER_MODE4_Msk|GPIO_MODER_MODE5_Msk
 #define GPIOC_MODER_0   GPIO_MODER_MODE3_0|GPIO_MODER_MODE4_0|GPIO_MODER_MODE5_0
 
@@ -36,7 +34,7 @@ void matrix_init(){
 }
 
 
-void deactivate_rows(){
+void desactivate_rows(){
   ROW0(0);
   ROW1(0);
   ROW2(0);
@@ -80,7 +78,7 @@ void activate_row(int row){
 
 void send_byte(uint8_t val, int bank){
   SB(bank);
-  for (int i=bank?8:5; i>=0; i--){
+  for (int i=bank?7:5; i>=0; i--){
     SDA(val & (1<<i));
     pulse_SCK();
   }
@@ -92,6 +90,7 @@ void mat_set_row(int row, const rgb_color *val){
     send_byte(val[i].g, 1);
     send_byte(val[i].r, 1);
   }
+  desactivate_rows();
   activate_row(row);
   pulse_LAT();
 }

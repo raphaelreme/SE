@@ -3,6 +3,9 @@
 
 #include <stdint.h>
 
+#include "stm32l4xx.h"
+#include "stm32l475xx.h"
+
 #define ROW0(x)         WRITE_REG(GPIOB->BSRR, (x)?GPIO_BSRR_BS2:GPIO_BSRR_BR2)
 #define ROW1(x)         WRITE_REG(GPIOA->BSRR, (x)?GPIO_BSRR_BS15:GPIO_BSRR_BR15)
 #define ROW2(x)         WRITE_REG(GPIOA->BSRR, (x)?GPIO_BSRR_BS2:GPIO_BSRR_BR2)
@@ -20,20 +23,20 @@
 
 #define pulse_SCK()     do {\
                           SCK(0);  \
-                          wait(3); \
+                          wait(4); \
                           SCK(1);  \
-                          wait(3); \
+                          wait(4); \
                           SCK(0);  \
-                          wait(3);}\
+                          wait(4);}\
                         while (0)
 
 #define pulse_LAT()     do {\
                           LAT(1);  \
-                          wait(3); \
+                          wait(4); \
                           LAT(0);  \
-                          wait(1); \
+                          wait(2); \
                           LAT(1);  \
-                          wait(3);}\
+                          wait(4);}\
                         while (0)
 
 
@@ -47,7 +50,7 @@ typedef struct {
 
 
 void matrix_init(void);
-void deactivate_rows(void);
+void desactivate_rows(void);
 void activate_row(int);
 void send_byte(uint8_t, int);
 void mat_set_row(int, const rgb_color *);
