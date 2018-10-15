@@ -32,6 +32,7 @@ void matrix_init(){
 
     wait(10000);
     WRITE_REG(GPIOC->BSRR, GPIO_BSRR_BS3);
+    init_bank0();
 }
 
 
@@ -92,5 +93,12 @@ void mat_set_row(int row, const rgb_color *val){
     send_byte(val[i]->r, 1);
   }
   activate_row(row);
+  pulse_LAT();
+}
+
+void init_bank0(){
+  for (int i=0; i<24; i++){
+    send_byte(0xff,0);
+  }
   pulse_LAT();
 }
