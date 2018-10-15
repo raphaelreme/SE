@@ -14,7 +14,7 @@ ASFLAGS = -g
 LDFLAGS = -T ld_ram.lds -nostdlib
 
 EXE = main
-SOURCE_C = main.c init.c led.c uart.c
+SOURCE_C = main.c init.c led.c uart.c matrix.c
 OBJS = $(subst .c,.o,$(SOURCE_C)) crt0.o clocks
 
 

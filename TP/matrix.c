@@ -1,0 +1,26 @@
+#include "matrix.h"
+
+
+
+void matrix_init(){
+    //Ena clocks of A, B, C
+    SET_BIT(RCC->AHB2ENR, RCC_AHB2ENR_GPIOAEN|RCC_AHB2ENR_GPIOBEN|RCC_AHB2ENR_GPIOCEN);
+
+    //Set the output mode for the needed pins
+    MODIFY_REG(GPIOA->MODER, GPIOA_MODER_Msk, GPIOA_MODER_0);
+    MODIFY_REG(GPIOB->MODER, GPIOB_MODER_Msk, GPIOB_MODER_0);
+    MODIFY_REG(GPIOC->MODER, GPIOC_MODER_Msk, GPIOC_MODER_0);
+
+    //Initializes the value of RST, LAT, SB, SCK and SDA
+    WRITE_REG(GPIOC->BSRR, GPIO_BSRR_BS3 | GPIO_BSRR_BS4 | GPIO_BSRR_BR5);
+    WRITE_REG(GPIOB->BSRR, GPIO_BSRR_BR1);
+    WRITE_REG(GPIOA->BSRR, GPIO_BSRR_BR4);
+
+    //Initializes C0 to C7
+    WRITE_REG(GPIOA->BSRR, GPIO_BSRR_BR2 | GPIO_BSRR_BR3 | GPIO_BSRR_BR5 | GPIO_BSRR_BR6 | GPIO_BSRR_BR7 | GPIO_BSRR_BR15);
+    WRITE_REG(GPIOB->BSRR, GPIO_BSRR_BR0 | GPIO_BSRR_BR2);
+
+    for (int j=0; j<10000; j++){
+      asm volatile("nop");
+    }
+}
