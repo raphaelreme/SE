@@ -9,6 +9,10 @@ void test_getchar(void);
 void test_gets(void);
 void check_sum(void);
 
+
+/*
+ * Convert a uint32_t in its hexadicmal form and put it in the string s.
+ */
 void hexa(uint8_t *, uint32_t);
 
 
@@ -93,9 +97,7 @@ void check_sum(){
   uart_puts((uint8_t *)s);
 }
 
-/*
- * Return the hexadicmal form of integer in a string.
- */
+
 void hexa(uint8_t * s, uint32_t value){
   const uint8_t c[16] = "0123456789abcdef";
 
