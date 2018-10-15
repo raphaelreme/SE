@@ -79,5 +79,18 @@ void activate_row(int row){
 
 void send_byte(uint8_t val, int bank){
   SB(bank);
-  
+  for (int i=bank?8:5; i>=0; i--){
+    SDA(val & (1<<i));
+    pulse_SCK();
+  }
+}
+
+void mat_set_row(int row, const rgb_color *val){
+  for (int i=7; i>=0; i--){
+    send_byte(val[i]->b, 1);
+    send_byte(val[i]->g, 1);
+    send_byte(val[i]->r, 1);
+  }
+  activate_row(row);
+  pulse_LAT();
 }
