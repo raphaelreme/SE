@@ -30,7 +30,7 @@ def main():
     args = parser.parse_args()
 
     # Check num
-    if args.num < 1 or args.num > 100000:
+    if args.num < 100 or args.num > 100000:
         print("Error : invalid num parameter: %d\n"%args.num)
         parser.print_help()
         sys.exit(-1)
@@ -43,8 +43,7 @@ def main():
         sys.exit(-1)
 
     # Generate random bytes
-    #array = np.random.randint(0, 256, args.num)
-    array = np.arange(args.num)
+    array = np.random.randint(0, 256, args.num)
 
     # Calculate sum of bytes
     sum = np.sum(array)%(2**32)
@@ -53,7 +52,8 @@ def main():
     for i in range(args.num):
         ser.write(bytes((array[i],)))
         if args.verbosity:
-            print("Sent 0x%x"%array[i])
+            print("Sent 0x%x"%(array[i]))
+
     # Close serial port
     ser.close()
 
