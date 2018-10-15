@@ -3,7 +3,7 @@
 #include "stm32l4xx.h"
 
 
-void active_wait(){
+static void active_wait(){
   while(1){
     asm volatile("nop");
   }

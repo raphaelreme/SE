@@ -2,18 +2,18 @@
 #include "clocks.h"
 #include "uart.h"
 
-int fibo(int);
-void leds(void);
-void test_puts(void);
-void test_getchar(void);
-void test_gets(void);
-void check_sum(void);
+static int fibo(int);
+static void leds(void);
+static void test_puts(void);
+static void test_getchar(void);
+static void test_gets(void);
+static void check_sum(void);
 
 
 /*
  * Convert a uint32_t in its hexadicmal form and put it in the string s.
  */
-void hexa(uint8_t *, uint32_t);
+static void hexa(uint8_t *, uint32_t);
 
 
 /********************************************************************/
@@ -22,7 +22,7 @@ static const size_t SIZE = 10000;
 
 
 
-void wait(int n){
+static void wait(int n){
   for (int j=0; j<n; j++){
     asm volatile("nop");
   }
@@ -36,7 +36,7 @@ int main(){
   check_sum();
 }
 
-void leds(){
+static void leds(){
   const int WAIT = 3000000;
   const int NB = 10;
 
@@ -57,7 +57,7 @@ void leds(){
   led(LED_OFF);
 }
 
-void test_puts(){
+static void test_puts(){
   char c = 'A';
   const uint8_t * chaine = (const uint8_t *)"Hello world";
 
@@ -67,13 +67,13 @@ void test_puts(){
   uart_puts(chaine);
 }
 
-void test_getchar(){
+static void test_getchar(){
   for (int i=0; i<1000; i++){
     uart_putchar(uart_getchar());
   }
 }
 
-void test_gets(){
+static void test_gets(){
   size_t size = 11;
   int8_t tab[size];
   while(1){
@@ -83,7 +83,7 @@ void test_gets(){
   }
 }
 
-void check_sum(){
+static void check_sum(){
   uint32_t sum = 0;
   uint8_t s[11];
 
@@ -98,7 +98,7 @@ void check_sum(){
 }
 
 
-void hexa(uint8_t * s, uint32_t value){
+static void hexa(uint8_t * s, uint32_t value){
   const uint8_t c[16] = "0123456789abcdef";
 
   s[0] = '0';
