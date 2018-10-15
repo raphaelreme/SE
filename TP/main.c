@@ -11,6 +11,13 @@ void check_sum(void);
 
 void hexa(uint8_t *, uint32_t);
 
+
+/********************************************************************/
+/****************Size of the data send by checksum*******************/
+static const size_t SIZE = 10000;
+
+
+
 void wait(int n){
   for (int j=0; j<n; j++){
     asm volatile("nop");
@@ -23,22 +30,6 @@ int main(){
   wait(10000);
 
   check_sum();
-
-
-
-}
-
-
-
-
-int fibo(int n){
-  if (n<0){
-    return -1;
-  }
-  if (n<2){
-    return n;
-  }
-  return fibo(n-1)+fibo(n-2);
 }
 
 void leds(){
@@ -89,34 +80,22 @@ void test_gets(){
 }
 
 void check_sum(){
-  const uint8_t * display = (const uint8_t *)"Sum :";
-
   uint32_t sum = 0;
   uint8_t s[11];
 
-  size_t size = 1001;
-  uint8_t tab[size];
-  uart_gets((uint8_t *)tab, size);
-  uart_puts(display);
-
-  for (uint32_t i=0; i<size-1; i++){
-    sum += tab[i];
+  for (uint32_t i=0; i<SIZE; i++){
+    sum += uart_getchar();
   }
+
+  uart_puts((const uint8_t *)"Sum :");
+
   hexa((uint8_t *)s, sum);
   uart_puts((uint8_t *)s);
-
-  /*
-  while (1){
-    uint8_t c = uart_getchar();
-    sum += c;
-
-    uart_puts(display);
-    hexa((uint8_t *)s, sum);
-    uart_puts((uint8_t *)s);
-  }
-  */
 }
 
+/*
+ * Return the hexadicmal form of integer in a string.
+ */
 void hexa(uint8_t * s, uint32_t value){
   const uint8_t c[16] = "0123456789abcdef";
 
