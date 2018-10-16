@@ -16,6 +16,10 @@ int main(){
 }
 
 
+/*
+ * Turn on all the leds with enough speed so that
+ * human eyes believed them all to be enabled at the same time
+ */
 static void test_pixel(){
   rgb_color red[8];
   rgb_color green[8];
