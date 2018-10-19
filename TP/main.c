@@ -11,5 +11,4 @@ void wait(int n){
 int main(){
   clocks_init();
   irq_init();
-)
 }
