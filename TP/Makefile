@@ -16,7 +16,7 @@ OBJCOPYFLAGS = -I binary -O elf32-littlearm -B arm
 LDFLAGS = -T ld_ram.lds -nostdlib
 
 EXE = main
-SOURCE_C = main.c init.c led.c uart.c matrix.c irq.c
+SOURCE_C = main.c init.c led.c uart.c matrix.c irq.c buttons.c
 OBJS = $(subst .c,.o,$(SOURCE_C)) crt0.o image.o clocks
 
 

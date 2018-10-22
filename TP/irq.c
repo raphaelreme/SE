@@ -7,6 +7,8 @@
                                   while(1){}\
                                 }
 
+extern uint8_t _start, _stack;
+
 MAKE_DEFAULT_HANDLER(NMI_Handler)
 MAKE_DEFAULT_HANDLER(HardFault_Handler)
 MAKE_DEFAULT_HANDLER(MemManage_Handler)
@@ -110,8 +112,8 @@ MAKE_DEFAULT_HANDLER(DMA2D_IRQHandler)
 
 __attribute__((section ("INTERUPT_TABLE"))) void * vector_table[] = {
   // Stack and Reset Handler
-  //&_stack,            /* Top of stack */
-  //_start,             /* Reset handler */
+  &_stack,            /* Top of stack */
+  &_start,             /* Reset handler */
 
   // ARM internal exceptions
   NMI_Handler,        /* NMI handler */
