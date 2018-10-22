@@ -1,4 +1,6 @@
+#include "main.h"
 #include "clocks.h"
+#include "led.h"
 #include "irq.h"
 #include "buttons.h"
 
@@ -11,6 +13,7 @@ void wait(int n){
 
 int main(){
   clocks_init();
+  led_init();
   irq_init();
   button_init();
 }

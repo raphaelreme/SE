@@ -1,6 +1,9 @@
 #include "stm32l475xx.h"
 #include "stm32l4xx.h"
 #include "buttons.h"
+#include "irq.h"
+#include "led.h"
+#include "main.h"
 
 
 void button_init(){
@@ -24,5 +27,15 @@ void button_init(){
 
 
 void EXTI15_10_IRQHandler(){
-  
+  if (READ_BIT(EXTI->PR1, EXTI_PR1_PIF13)){
+    //EXTI13 Handler
+    SET_BIT(EXTI->PR1, EXTI_PR1_PIF13);
+    led_g_on();
+    wait(10000000);
+    led_g_off();
+    return ;
+  } else {
+    //For the others. Should be unused with the current code.
+    default_handler();
+  }
 }

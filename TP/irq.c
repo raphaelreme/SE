@@ -9,6 +9,13 @@
 
 extern uint8_t _start, _stack;
 
+
+
+void default_handler(){
+  __disable_irq();
+  while(1){}
+}
+
 MAKE_DEFAULT_HANDLER(NMI_Handler)
 MAKE_DEFAULT_HANDLER(HardFault_Handler)
 MAKE_DEFAULT_HANDLER(MemManage_Handler)
