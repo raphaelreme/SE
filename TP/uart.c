@@ -1,7 +1,11 @@
-#include "uart.h"
 #include "stm32l475xx.h"
 #include "stm32l4xx.h"
+#include "uart.h"
+#include "irq.h"
 
+
+extern uint8_t frame[192];
+static int index = 0;
 
 static void active_wait(){
   while(1){
@@ -9,14 +13,8 @@ static void active_wait(){
   }
 }
 
-/*
- * Initializes the USART1 output.
- * Resets USART1 registers and sets :
- * MODE = 8N1
- * Oversampling = 16
- * Speed = 115200 bauds
- */
-void uart_init(){
+
+void uart_init(int baudrate){
   //Ena clock of port B
   SET_BIT(RCC->AHB2ENR,RCC_AHB2ENR_GPIOBEN);
 
@@ -38,23 +36,23 @@ void uart_init(){
   CLEAR_BIT(RCC->APB2RSTR, RCC_APB2RSTR_USART1RST);
 
 
-  //Set baud rate to 115 200 -> it depends on the clock (here clock = 80MHz)
-  //80Mhz/115200 = 694.44
-  USART1->BRR = 694;
+  //Set baud rate to baudrate -> it depends on the clock (here clock = 80MHz)
+  USART1->BRR = 80000000/baudrate;
 
-  //Configure CR1 and CR2 -> 8N1 and oversampling to 16
-  //Useless as the reset has alreadey set them all to 0
-  CLEAR_BIT(USART1->CR1, USART_CR1_OVER8 | USART_CR1_M1 | USART_CR1_M | USART_CR1_PCE);
-  CLEAR_BIT(USART1->CR2, USART_CR2_STOP);
+  //Configure CR1 and CR2 -> 8N1 and oversampling to 16. Enable reading interuption.
+  //For CR1 0 bits fit, excepts for enable interuption
+  //For CR2, 0 is the good value.
+  USART1->CR1 = USART_CR1_RXNEIE;
+  USART1->CR2 = 0;
 
   SET_BIT(USART1->CR1, USART_CR1_TE | USART_CR1_RE | USART_CR1_UE);
+
+  // Enable Irq from EXTI10-15
+  NVIC_EnableIRQ(37);
 }
 
 
 
-/*
- * Write a single character on the USART1 output.
- */
 void uart_putchar(uint8_t c){
   while (READ_BIT(USART1->ISR, USART_ISR_TXE) == 0){}
   USART1->TDR = c;
@@ -116,4 +114,23 @@ void uart_gets(uint8_t *s, size_t size){
   }
 
   s[i]=0;
+}
+
+
+void USART1_IRQHandler(){
+  if (READ_BIT(USART1->ISR, USART_ISR_RXNE|USART_ISR_ORE) != 0){
+    uint8_t c = uart_getchar();
+
+    if (c == 0xff){
+      for (int j=0; j<192; j++){
+        frame[j] = 0;
+      }
+      index = 0;
+    } else {
+      frame[index] = c;
+      index = (index+1)%192;
+    }
+  } else {
+    default_handler();
+  }
 }

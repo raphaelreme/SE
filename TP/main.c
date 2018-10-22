@@ -4,10 +4,12 @@
 #include "irq.h"
 #include "buttons.h"
 #include "matrix.h"
+#include "uart.h"
 
-extern uint8_t _binary_image_raw_start;
+uint8_t frame[192];
 
-static void test_static_image(void);
+
+static void display_frame(void);
 
 void wait(int n){
   for (int j=0; j<n; j++){
@@ -21,19 +23,19 @@ int main(){
   irq_init();
   button_init();
   matrix_init();
-  test_static_image();
+  uart_init(38400);
+  display_frame();
 }
 
 
 /*
- * Display image.raw on the leds.
- * Assume that image.raw has 8*8*3 bytes of data.
+ * Display the current frame
  */
-static void test_static_image(){
-  uint8_t * start = &_binary_image_raw_start;
+static void display_frame(){
+  
   while (1){
     for (int i=0; i<8; i++){
-      mat_set_row(i, (rgb_color *)(start+i*24));
+      mat_set_row(i, (rgb_color *)(frame+i*24));
       wait(1000);
     }
   }

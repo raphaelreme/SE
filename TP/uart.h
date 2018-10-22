@@ -12,9 +12,11 @@ typedef unsigned int size_t;
  * Resets USART1 registers and sets :
  * MODE = 8N1
  * Oversampling = 16
- * Speed = 115200 bauds
+ * Speed = baudrate
+ *
+ * It also enables interuptions when there is something to read.
  */
-void uart_init(void);
+void uart_init(int baudrate);
 
 
 /*
@@ -45,5 +47,17 @@ uint8_t uart_getchar(void);
  * go for an infite loop.
  */
 void uart_gets(uint8_t *, size_t);
+
+/*
+ * Usart handler. used for reading from usart1.
+ * It adds the char received to frame.
+ * If 0xff is received, it will not be treated as a normal char.
+ * It will set the frame to 0.
+ *
+ * If an ORE occured, it will go on an infite loop.
+ * And if the interuption has not been raised by ORE or RXNEIE,
+ * then it will call the default handler from irq.c. 
+ */
+void USART1_IRQHandler(void);
 
 #endif
