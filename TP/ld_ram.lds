@@ -14,7 +14,13 @@ SECTIONS
   INTERUPT_TABLE : {
   } > rom
 
-  .text : {
+  .text : AT (ADDR(INTERUPT_TABLE)+SIZEOF(INTERUPT_TABLE)){
+      _text = . ;
+      EXCLUDE_FILE (*crt0.o *init.o) *(.text*)
+      _etext = . ;
+  } > ram1
+
+  .flashtext (LOADADDR(.text)+SIZEOF(.text)): AT (LOADADDR(.text)+SIZEOF(.text)){
       *(.text*)
   } > rom
 
@@ -23,7 +29,7 @@ SECTIONS
       _data_lma = . ;
   } > rom
 
-  .data : AT (ADDR(.rodata)+SIZEOF(.rodata)){
+  .data : AT (LOADADDR(.rodata)+SIZEOF(.rodata)){
       _data = . ;
       *(.data*)
       _edata = . ;
@@ -35,3 +41,5 @@ SECTIONS
       _ebss = . ;
   } > ram1
 }
+
+  _text_lma = LOADADDR(.text) ;

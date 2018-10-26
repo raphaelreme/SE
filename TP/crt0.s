@@ -1,6 +1,8 @@
 .cpu cortex-m4
 .syntax unified
-.global _start
+
+@.section .flashtext
+  .global _start
 
   .thumb_func
 _start:
