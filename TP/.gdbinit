@@ -21,5 +21,17 @@ end
 define flash
   dont-repeat
   mon reset
+  set *0x40022008=0x45670123
+  set *0x40022008=0xCDEF89AB
+  set *0x40022014=0x40010004
+  shell sleep 1
+  set *0x40022010=0x000000A0
+  mon reset
+  set *0x40022008=0x45670123
+  set *0x40022008=0xCDEF89AB
+  set *0x40022014=0x40000001
   load
+  set *0x40022010=0x000000A0
+  mon reset
+  set $sp=$msp
 end
