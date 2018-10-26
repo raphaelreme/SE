@@ -2,19 +2,21 @@
 #include "stm32l4xx.h"
 #include "uart.h"
 #include "irq.h"
+#include "matrix.h"
 
 
-extern uint8_t frame[192];
+
 static int index = 0;
+static uint8_t has_to_wait = 1;
 
-static void active_wait(){
-  while(1){
+static void active_wait() {
+  while(1) {
     asm volatile("nop");
   }
 }
 
 
-void uart_init(int baudrate){
+void uart_init(int baudrate) {
   //Ena clock of port B
   SET_BIT(RCC->AHB2ENR,RCC_AHB2ENR_GPIOBEN);
 
@@ -40,29 +42,27 @@ void uart_init(int baudrate){
   USART1->BRR = 80000000/baudrate;
 
   //Configure CR1 and CR2 -> 8N1 and oversampling to 16. Enable reading interuption.
-  //For CR1 0 bits fit, excepts for enable interuption
+  //For CR1 and CR3 0 bits fit, excepts for enable interuption
   //For CR2, 0 is the good value.
   USART1->CR1 = USART_CR1_RXNEIE;
   USART1->CR2 = 0;
+  USART1->CR3 = USART_CR3_EIE;
 
   SET_BIT(USART1->CR1, USART_CR1_TE | USART_CR1_RE | USART_CR1_UE);
 
-  // Enable Irq from EXTI10-15
+  // Enable Irq
   NVIC_EnableIRQ(37);
 }
 
 
 
-void uart_putchar(uint8_t c){
+void uart_putchar(uint8_t c) {
   while (READ_BIT(USART1->ISR, USART_ISR_TXE) == 0){}
   USART1->TDR = c;
 }
 
-/*
- * Write the string s on the USART1 output.
- * Add a final '\n\r' to the output.
- */
-void uart_puts(const uint8_t *s){
+
+void uart_puts(const uint8_t *s) {
     while(*s != 0){
         uart_putchar(*s);
         s++;
@@ -71,12 +71,8 @@ void uart_puts(const uint8_t *s){
     uart_putchar('\r');
 }
 
-/*
- * Reads one character from USART1 and returns it.
- * If an overrun or a framing error happens, it will
- * go for an infite loop.
- */
-uint8_t uart_getchar(){
+
+uint8_t uart_getchar() {
   do {
     if (READ_BIT(USART1->ISR, USART_ISR_ORE)){
       uart_puts((uint8_t *)"OVERRUN\n");
@@ -93,15 +89,8 @@ uint8_t uart_getchar(){
 }
 
 
-/*
- * Reads at most size - 1 characters from USART1 and puts them
- * in the buffer s. It ends if a \n or \r is read.
- * A final nul ('\0') byte is put at the end of the line.
- *
- * If an overrun or a framing error happens, it will
- * go for an infite loop.
- */
-void uart_gets(uint8_t *s, size_t size){
+
+void uart_gets(uint8_t *s, size_t size) {
   uint32_t i;
 
   for (i=0; i<size-1; i++){
@@ -117,20 +106,36 @@ void uart_gets(uint8_t *s, size_t size){
 }
 
 
-void USART1_IRQHandler(){
-  if (READ_BIT(USART1->ISR, USART_ISR_RXNE|USART_ISR_ORE) != 0){
-    uint8_t c = uart_getchar();
+void USART1_IRQHandler() {
+  if (READ_BIT(USART1->ISR, USART_ISR_ORE|USART_ISR_FE) != 0) {
+    has_to_wait = 1;
+    SET_BIT(USART1->ICR, USART_ICR_ORECF|USART_ICR_FECF);
+    return;
+  }
+
+  if (READ_BIT(USART1->ISR, USART_ISR_NE) != 0) {
+    SET_BIT(USART1->ICR, USART_ICR_NECF);
+    return;
+  }
+
+  if (READ_BIT(USART1->ISR, USART_ISR_RXNE) != 0) {
+    uint8_t c = (uint8_t)READ_BIT(USART1->RDR, 0xff);
 
     if (c == 0xff){
-      for (int j=0; j<192; j++){
-        frame[j] = 0;
-      }
       index = 0;
+      has_to_wait = 0;
     } else {
-      frame[index] = c;
-      index = (index+1)%192;
+      if (has_to_wait){
+        return;
+      }
+      frame_buffer[index] = c;
+      index ++;
+      if (index >= 192){
+        has_to_wait = 1;
+      }
     }
   } else {
+    //Should not happen with the current initialization
     default_handler();
   }
 }

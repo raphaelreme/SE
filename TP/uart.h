@@ -51,12 +51,14 @@ void uart_gets(uint8_t *, size_t);
 /*
  * Usart handler. used for reading from usart1.
  * It adds the char received to frame.
- * If 0xff is received, it will not be treated as a normal char.
- * It will set the frame to 0.
+ * Any frame has to start with 0xff (will not be added to frame)
+ * When 0xff is received, the frame is set to 0 and the receiver wait a maximum
+ * of 192 char. Then receiver wait a new frame.
  *
- * If an ORE occured, it will go on an infite loop.
- * And if the interuption has not been raised by ORE or RXNEIE,
- * then it will call the default handler from irq.c. 
+ *
+ * If an ORE or FE occured, it will wait the next frame.
+ * NE is ignored.
+ * And the other interuptions are treated with the default handler of irq.c.
  */
 void USART1_IRQHandler(void);
 

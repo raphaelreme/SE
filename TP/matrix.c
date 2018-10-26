@@ -10,6 +10,9 @@
 #define GPIOC_MODER_Msk GPIO_MODER_MODE3_Msk|GPIO_MODER_MODE4_Msk|GPIO_MODER_MODE5_Msk
 #define GPIOC_MODER_0   GPIO_MODER_MODE3_0|GPIO_MODER_MODE4_0|GPIO_MODER_MODE5_0
 
+volatile uint8_t frame_buffer[192];
+
+
 void matrix_init(){
     //Ena clocks of A, B, C
     SET_BIT(RCC->AHB2ENR, RCC_AHB2ENR_GPIOAEN|RCC_AHB2ENR_GPIOBEN|RCC_AHB2ENR_GPIOCEN);
@@ -85,14 +88,14 @@ void send_byte(uint8_t val, int bank){
 }
 
 void mat_set_row(int row, const rgb_color *val){
-  desactivate_rows();
   for (int i=7; i>=0; i--){
     send_byte(val[i].b, 1);
     send_byte(val[i].g, 1);
     send_byte(val[i].r, 1);
   }
+  desactivate_rows();
+  wait(50);
   pulse_LAT();
-  wait(100);
   activate_row(row);
 }
 
@@ -101,4 +104,13 @@ void init_bank0(){
     send_byte(0xff,0);
   }
   pulse_LAT();
+}
+
+
+void display_frame(volatile uint8_t * frame) {
+  while (1) {
+    for (int i=0; i<8; i++){
+      mat_set_row(i, (rgb_color *)(frame+i*24));
+    }
+  }
 }

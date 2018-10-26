@@ -29,7 +29,7 @@
                           SCK(1);  \
                           wait(3); \
                           SCK(0);  \
-                          wait(3);}\
+                          }\
                         while (0)
 
 /*****************************Send a 0 on LAT*********************************/
@@ -37,9 +37,9 @@
                           LAT(1);  \
                           wait(3); \
                           LAT(0);  \
-                          wait(1); \
+                          wait(3); \
                           LAT(1);  \
-                          wait(3);}\
+                          }\
                         while (0)
 
 
@@ -49,6 +49,8 @@ typedef struct {
   uint8_t g;
   uint8_t b;
 } rgb_color;
+
+extern volatile uint8_t frame_buffer[192];
 
 
 /*
@@ -83,5 +85,11 @@ void mat_set_row(int, const rgb_color *);
  * Sets Bank0 value to 0xffffff.
  */
 void init_bank0();
+
+
+/*
+ * Display the frame
+ */
+void display_frame(volatile uint8_t *);
 
 #endif
