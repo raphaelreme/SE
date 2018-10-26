@@ -16,14 +16,17 @@ SECTIONS
 
   .text : {
       *(.text*)
-  } > ram1
+  } > rom
 
   .rodata : {
       *(.rodata*)
-  } > ram1
+      _data_lma = . ;
+  } > rom
 
-  .data : {
+  .data : AT (ADDR(.rodata)+SIZEOF(.rodata){
+      _data = . ;
       *(.data*)
+      _edata = . ;
   } > ram1
 
   .bss : {
