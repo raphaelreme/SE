@@ -1,4 +1,4 @@
-target ext :2331
+target remote :2331
 mon endian little
 mon halt
 
