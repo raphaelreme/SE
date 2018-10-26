@@ -23,7 +23,7 @@ SECTIONS
       _data_lma = . ;
   } > rom
 
-  .data : AT (ADDR(.rodata)+SIZEOF(.rodata){
+  .data : AT (ADDR(.rodata)+SIZEOF(.rodata)){
       _data = . ;
       *(.data*)
       _edata = . ;
