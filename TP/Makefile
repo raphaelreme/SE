@@ -7,7 +7,7 @@ TARGET_ARCH = -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16
 TARGET_MACH = $(TARGET_ARCH)
 
 CPPFLAGS = -I CMSIS/Device/ST/STM32L4xx/Include -I CMSIS/Include -DSTM32L475xx
-CFLAGS = -Wall -Wextra -Werror -g -O0
+CFLAGS = -Wall -Wextra -Werror -g -O1
 ASFLAGS = -g
 OBJCOPYFLAGS = -I binary -O elf32-littlearm -B arm
 
@@ -16,8 +16,8 @@ OBJCOPYFLAGS = -I binary -O elf32-littlearm -B arm
 LDFLAGS = -T ld_ram.lds -nostdlib
 
 EXE = main
-SOURCE_C = main.c init.c led.c uart.c matrix.c irq.c buttons.c
-OBJS = $(subst .c,.o,$(SOURCE_C)) crt0.o image.o clocks
+SOURCE_C = main.c init.c led.c uart.c matrix.c irq.c buttons.c clocks.c
+OBJS = $(subst .c,.o,$(SOURCE_C)) crt0.o image.o
 
 
 ####################################################################

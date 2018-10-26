@@ -12,7 +12,7 @@ _stack =  ORIGIN(ram2) + LENGTH(ram2) ;
 SECTIONS
 {
   INTERUPT_TABLE : {
-  } > ram1
+  } > rom
 
   .text : {
       *(.text*)
