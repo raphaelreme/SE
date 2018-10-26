@@ -56,7 +56,7 @@ void uart_gets(uint8_t *, size_t);
  * of 192 char. Then receiver wait a new frame.
  *
  *
- * If an ORE or FE occured, it will wait the next frame.
+ * If an ORE or FE occured, it will wait the next frame and ignored and erased the current one.
  * NE is ignored.
  * And the other interuptions are treated with the default handler of irq.c.
  */

@@ -108,6 +108,9 @@ void uart_gets(uint8_t *s, size_t size) {
 
 void USART1_IRQHandler() {
   if (READ_BIT(USART1->ISR, USART_ISR_ORE|USART_ISR_FE) != 0) {
+    for (int j=0; j<192; j++){
+      frame_buffer[j] = 0;
+    }
     has_to_wait = 1;
     SET_BIT(USART1->ICR, USART_ICR_ORECF|USART_ICR_FECF);
     return;
