@@ -11,10 +11,10 @@ _stack =  ORIGIN(ram2) + LENGTH(ram2) ;
 
 SECTIONS
 {
-  INTERUPT_TABLE : {
-  } > rom
+  INTERUPT_TABLE : AT (ORIGIN(rom)) {
+  } > ram1
 
-  .text : AT (ADDR(INTERUPT_TABLE)+SIZEOF(INTERUPT_TABLE)){
+  .text : AT (LOADADDR(INTERUPT_TABLE)+SIZEOF(INTERUPT_TABLE)){
       _text = . ;
       EXCLUDE_FILE (*crt0.o *init.o) *(.text*)
       _etext = . ;
@@ -26,7 +26,6 @@ SECTIONS
 
   .rodata : {
       *(.rodata*)
-      _data_lma = . ;
   } > rom
 
   .data : AT (LOADADDR(.rodata)+SIZEOF(.rodata)){
@@ -42,4 +41,9 @@ SECTIONS
   } > ram1
 }
 
-  _text_lma = LOADADDR(.text) ;
+_interupt = ADDR(INTERUPT_TABLE) ;
+_einterupt = ADDR(INTERUPT_TABLE) + SIZEOF(INTERUPT_TABLE);
+
+_interupt_lma = LOADADDR(INTERUPT_TABLE) ;
+_data_lma = LOADADDR(.data) ;
+_text_lma = LOADADDR(.text) ;

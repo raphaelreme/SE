@@ -1,6 +1,6 @@
 #include<stdint.h>
 
-extern uint8_t _bss, _ebss, _data, _edata, _data_lma, _text, _etext, _text_lma;
+extern uint8_t _bss, _ebss, _data, _edata, _data_lma, _text, _etext, _text_lma, _interupt, _einterupt, _interupt_lma;
 
 void init() {
   uint8_t* dst = &_bss;
@@ -22,6 +22,13 @@ void init() {
   src = &_data_lma;
 
   for (dst = &_data; dst < &_edata; dst++) {
+    *dst = *src;
+    src++;
+  }
+
+  src = &_interupt_lma;
+
+  for (dst = &_interupt; dst < &_einterupt; dst++) {
     *dst = *src;
     src++;
   }
