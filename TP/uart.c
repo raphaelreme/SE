@@ -116,6 +116,7 @@ void USART1_IRQHandler() {
     return;
   }
 
+  //When ORE and FE are enabled, NE also is. Here the program will ignore NE
   if (READ_BIT(USART1->ISR, USART_ISR_NE) != 0) {
     SET_BIT(USART1->ICR, USART_ICR_NECF);
     return;

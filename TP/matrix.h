@@ -22,7 +22,7 @@
 #define SCK(x)          WRITE_REG(GPIOB->BSRR, (x)?GPIO_BSRR_BS1:GPIO_BSRR_BR1)
 #define SDA(x)          WRITE_REG(GPIOA->BSRR, (x)?GPIO_BSRR_BS4:GPIO_BSRR_BR4)
 
-/****************************Send a 1 on SCK*********************************/
+/*****************************Send a 1 on SCK**********************************/
 #define pulse_SCK()     do {\
                           SCK(0);  \
                           wait(3); \
@@ -32,7 +32,7 @@
                           }\
                         while (0)
 
-/*****************************Send a 0 on LAT*********************************/
+/*****************************Send a 0 on LAT**********************************/
 #define pulse_LAT()     do {\
                           LAT(1);  \
                           wait(3); \
@@ -88,7 +88,8 @@ void init_bank0();
 
 
 /*
- * Display the frame
+ * Display the frame.
+ * Assume that [frame; frame +192] are allocated and correctly initialized.
  */
 void display_frame(volatile uint8_t *);
 

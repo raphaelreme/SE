@@ -6,7 +6,7 @@
 #include "main.h"
 
 
-void button_init(){
+void button_init() {
   //Ena clock of port C
   SET_BIT(RCC->AHB2ENR, RCC_AHB2ENR_GPIOCEN);
 
@@ -26,8 +26,8 @@ void button_init(){
 }
 
 
-void EXTI15_10_IRQHandler(){
-  if (READ_BIT(EXTI->PR1, EXTI_PR1_PIF13)){
+void EXTI15_10_IRQHandler() {
+  if (READ_BIT(EXTI->PR1, EXTI_PR1_PIF13)) {
     //EXTI13 Handler
     SET_BIT(EXTI->PR1, EXTI_PR1_PIF13);
     led_g_on();

@@ -2,7 +2,7 @@
 #include "stm32l4xx.h"
 #include "irq.h"
 
-#define MAKE_DEFAULT_HANDLER(f) void __attribute__((weak)) f(){\
+#define MAKE_DEFAULT_HANDLER(f) void __attribute__((weak)) f() {\
                                   __disable_irq();\
                                   while(1){}\
                                 }
@@ -11,9 +11,9 @@ extern uint8_t _start, _stack;
 
 
 
-void default_handler(){
+void default_handler() {
   __disable_irq();
-  while(1){}
+  while(1) {}
 }
 
 MAKE_DEFAULT_HANDLER(NMI_Handler)
@@ -117,7 +117,7 @@ MAKE_DEFAULT_HANDLER(DMA2D_IRQHandler)
 
 
 
-__attribute__((section ("INTERUPT_TABLE"))) void * vector_table[] = {
+__attribute__((section ("INTERUPT_TABLE"))) static void * vector_table[] = {
   // Stack and Reset Handler
   &_stack,            /* Top of stack */
   &_start,             /* Reset handler */
@@ -232,7 +232,7 @@ __attribute__((section ("INTERUPT_TABLE"))) void * vector_table[] = {
 };
 
 
-void irq_init(){
+void irq_init() {
   //vector_table should respect constraints and be like : 0x2xxx xx00
   SCB->VTOR = (uint32_t) vector_table;
 }

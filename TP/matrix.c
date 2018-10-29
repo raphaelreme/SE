@@ -13,7 +13,7 @@
 volatile uint8_t frame_buffer[192];
 
 
-void matrix_init(){
+void matrix_init() {
     //Ena clocks of A, B, C
     SET_BIT(RCC->AHB2ENR, RCC_AHB2ENR_GPIOAEN|RCC_AHB2ENR_GPIOBEN|RCC_AHB2ENR_GPIOCEN);
 
@@ -37,7 +37,7 @@ void matrix_init(){
 }
 
 
-void desactivate_rows(){
+void desactivate_rows() {
   ROW0(0);
   ROW1(0);
   ROW2(0);
@@ -49,7 +49,7 @@ void desactivate_rows(){
 }
 
 
-void activate_row(int row){
+void activate_row(int row) {
   switch (row) {
     case 0:
       ROW0(1);
@@ -79,16 +79,16 @@ void activate_row(int row){
 }
 
 
-void send_byte(uint8_t val, int bank){
+void send_byte(uint8_t val, int bank) {
   SB(bank);
-  for (int i=bank?7:5; i>=0; i--){
+  for (int i=bank?7:5; i>=0; i--) {
     SDA(val & (1<<i));
     pulse_SCK();
   }
 }
 
-void mat_set_row(int row, const rgb_color *val){
-  for (int i=7; i>=0; i--){
+void mat_set_row(int row, const rgb_color *val) {
+  for (int i=7; i>=0; i--) {
     send_byte(val[i].b, 1);
     send_byte(val[i].g, 1);
     send_byte(val[i].r, 1);
@@ -99,7 +99,7 @@ void mat_set_row(int row, const rgb_color *val){
   activate_row(row);
 }
 
-void init_bank0(){
+void init_bank0() {
   for (int i=0; i<24; i++){
     send_byte(0xff,0);
   }

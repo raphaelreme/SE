@@ -3,7 +3,7 @@
 #include "stm32l4xx.h"
 
 
-void led_init(){
+void led_init() {
   //Ena port B and C
   SET_BIT(RCC->AHB2ENR,RCC_AHB2ENR_GPIOBEN | RCC_AHB2ENR_GPIOCEN);
   //Set output mode for B
@@ -13,17 +13,17 @@ void led_init(){
 }
 
 
-void led_g_on(){
+void led_g_on() {
   WRITE_REG(GPIOB->BSRR, GPIO_BSRR_BS14);
 }
 
 
-void led_g_off(){
+void led_g_off() {
   WRITE_REG(GPIOB->BSRR, GPIO_BSRR_BR14);
 }
 
 
-void led(enum state s){
+void led(enum state s) {
   if (s==LED_OFF){
     CLEAR_BIT(GPIOC->MODER,GPIO_MODER_MODE9_Msk);
     return;
