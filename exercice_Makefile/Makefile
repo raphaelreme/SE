@@ -1,7 +1,7 @@
 vpath stubs.c libs
 
 CC = arm-none-eabi-gcc
-EXE = hello
+EXE = main
 OBJS = main.o t1.o t2.o stubs.o
 
 TARGET_ARCH = -mthumb
